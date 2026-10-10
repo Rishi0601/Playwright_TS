@@ -21,7 +21,7 @@ export default defineConfig({
     {
       name: "firefox browser",
       use: {
-        headless: false,
+        headless: true,
         // channel: "msedge",
         viewport: { width: 1900, height: 1080 },
       },
