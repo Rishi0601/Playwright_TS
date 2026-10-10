@@ -1,17 +1,17 @@
 import { test as base, Page } from "@playwright/test";
-import { loginpage } from "../pages/LoginPage";
-import { reusableComponents } from "../utils/ReusableComponents";
+import { LoginPage } from "../pages/loginpage";
+import { ReusableComponents } from "../utils/ReusableComponents";
 
 export const test = base.extend<{
-  loginpage: loginpage;
-  reusableComponent: reusableComponents;
+  loginpage: LoginPage;
+  reusableComponent: ReusableComponents;
 }>({
   loginpage: async ({ page }, use) => {
-    var obj = new loginpage(page);
+    var obj = new LoginPage(page);
     await use(obj);
   },
   reusableComponent: async ({ page }, use) => {
-    var obj = new reusableComponents(page);
+    var obj = new ReusableComponents(page);
     await use(obj);
   },
 });
