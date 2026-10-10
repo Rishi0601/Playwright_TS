@@ -1,5 +1,5 @@
 import { test as base, Page } from "@playwright/test";
-import { LoginPage } from "../pages/loginpage";
+import { LoginPage } from "../pages/LoginPage";
 import { ReusableComponents } from "../utils/ReusableComponents";
 
 export const test = base.extend<{

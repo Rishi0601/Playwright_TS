@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { ReusableComponents } from "../utils/ReusableComponents";
-import { LoginPageUI } from "../ui/loginpageui";
+import { LoginPageUI } from "../ui/LoginPageUI";
 
 export class LoginPage {
   private readonly reusableComponents: ReusableComponents;
