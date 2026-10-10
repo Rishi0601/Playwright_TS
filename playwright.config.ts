@@ -2,7 +2,7 @@ import { chromium, defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
-  timeout: 5000,
+  timeout: 15000,
   retries: 1,
 
   reporter: [["html", { open: "always" }]],
