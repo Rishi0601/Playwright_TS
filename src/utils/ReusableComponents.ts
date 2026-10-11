@@ -29,7 +29,15 @@ export class ReusableComponents {
     return await locator.textContent();
   }
 
-  async validateText(text: string, locator: Locator): Promise<boolean> {
-    return (await this.getText(locator)) === text;
+  async validateText(text: string, locator: Locator): Promise<void> {
+    await expect(locator).toHaveText(text);
+  }
+
+  async switchTab(page: Page, locator: Locator): Promise<Page> {
+    const currentPage = page.waitForEvent("popup");
+    await this.click(locator);
+    const newPage = await currentPage;
+    await newPage.waitForLoadState();
+    return newPage;
   }
 }

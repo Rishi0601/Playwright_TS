@@ -8,15 +8,17 @@ export class LoginPageUI {
   public readonly dialogOKBtn: Locator;
   public readonly roleDropdown: Locator;
   public readonly errorMsg: Locator;
+  public readonly hyperlinks: Locator;
 
   constructor(private readonly page: Page) {
-    this.username = page.locator("#username");
-    this.password = page.locator("#password");
+    this.username = page.getByLabel("Username");
+    this.password = page.getByLabel("Password");
     this.terms = page.locator("#terms");
-    this.signInBtn = page.locator("#signInBtn");
-    this.dialogOKBtn = page.locator("#okayBtn");
+    this.signInBtn = page.getByRole("button", { name: "Sign In" });
+    this.dialogOKBtn = page.getByRole("button", { name: "Okay" });
     this.roleDropdown = page.locator("select.form-control");
     this.errorMsg = page.locator("[class='alert alert-danger col-md-12']");
+    this.hyperlinks = page.locator("[class='blinkingText']");
   }
 
   userAccess(accessLevel: string) {

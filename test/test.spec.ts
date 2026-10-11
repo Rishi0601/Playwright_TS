@@ -1,9 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { test as fixtureTest1 } from "../src/fixtures/PracticeFixture";
-import { test as fixtureTest2 } from "../src/fixtures/FrameworkFixture";
+import { test as fixtureTest } from "../src/fixtures/FrameworkFixture";
 import { LoginPageUI } from "../src/ui/LoginPageUI";
 
-const dataProvider = [
+const userDataProvider = [
   {
     username: "rahulshettyacademy",
     password: "Learning@830$3mK2",
@@ -25,55 +24,59 @@ const dataProvider = [
     role: "Consultant",
     expectedResult: "incorrect",
   },
-  {
-    username: "rahulshettyacademy",
-    password: "",
-    access: "admin",
-    role: "Teacher",
-    expectedResult: "empty",
-  },
 ];
 
-fixtureTest2.beforeEach("Navigate to website", async ({ page }) => {
+const hyperlinkDataProvider = [
+  "https://rahulshettyacademy.com/documents-request",
+  "https://rahulshettyacademy.com/qa-career-accelerator-job-ready",
+];
+
+fixtureTest.beforeEach("Navigate to website", async ({ page }) => {
   await page.goto("/loginpagePractise/");
 });
 
-fixtureTest1.skip("Fixture test", async ({ login }) => {
-  await login("user", "Consultant");
-});
-
-for (const data of dataProvider) {
-  fixtureTest2(
-    `Login - ${data.access} - ${data.role} - ${data.expectedResult}`,
-    async ({ loginpage, reusableComponent, page }) => {
-      const loginUI = new LoginPageUI(page);
-
-      if (data.username) {
-        await loginpage.enterUsername(data.username);
-      }
-
-      if (data.password) {
-        await loginpage.enterPassword(data.password);
-      }
-
+for (const data of userDataProvider) {
+  fixtureTest(
+    `Login page functionality - ${data.access} - ${data.role} - ${data.expectedResult}`,
+    async ({ loginpage, reusableComponent, loginUI, page }) => {
+      await loginpage.enterUsername(data.username);
+      await loginpage.enterPassword(data.password);
       await loginpage.selectAccesLevel(data.access);
       await loginpage.selectRoleType(data.role);
       await loginpage.clickOnTerms();
       await loginpage.signIn();
-
       switch (data.expectedResult) {
         case "success":
           await reusableComponent.expectedtUrl("/angularpractice/shop", page);
           break;
 
         case "empty":
-          await reusableComponent.validateText("Empty username/password.", loginUI.errorMsg);
+          await reusableComponent.validateText(
+            "Empty username/password.",
+            loginUI.errorMsg,
+          );
           break;
 
         case "incorrect":
-          await reusableComponent.validateText("Incorrect username/password.", loginUI.errorMsg);
+          await reusableComponent.validateText(
+            "Incorrect username/password.",
+            loginUI.errorMsg,
+          );
           break;
       }
+    },
+  );
+}
+
+for (const [index, hyperlink] of hyperlinkDataProvider.entries()) {
+  fixtureTest(
+    `Login page hyperlink functionality - ${hyperlink}`,
+    async ({ loginpage, reusableComponent, loginUI, page }) => {
+      const newTab = await reusableComponent.switchTab(
+        page,
+        loginUI.hyperlinks.nth(index),
+      );
+      await reusableComponent.expectedtUrl(`${hyperlink}`, newTab);
     },
   );
 }

@@ -3,9 +3,9 @@ import { chromium, defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./test",
   timeout: 30000,
-  retries: 1,
-  fullyParallel: true,
-  workers: 3,
+  // retries: 1,
+  fullyParallel: false,
+  workers: 1,
 
   reporter: [["html", { open: "always" }]],
 
@@ -15,8 +15,9 @@ export default defineConfig({
 
   use: {
     baseURL: "https://rahulshettyacademy.com",
-    trace: "on-first-retry",
     browserName: "firefox",
+    trace: "retain-on-failure",
+    screenshot: "on",
   },
 
   projects: [
@@ -24,7 +25,7 @@ export default defineConfig({
       name: "Chrome browser",
       use: {
         ...devices["Desktop Chrome"],
-        headless: true,
+        headless: false,
         viewport: { width: 1900, height: 1080 },
       },
     },
