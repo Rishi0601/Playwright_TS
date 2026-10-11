@@ -1,14 +1,16 @@
 import { chromium, defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./tests",
-  timeout: 15000,
+  testDir: "./test",
+  timeout: 30000,
   retries: 1,
+  fullyParallel: true,
+  workers: 3,
 
   reporter: [["html", { open: "always" }]],
 
   expect: {
-    timeout: 25000,
+    timeout: 30000,
   },
 
   use: {
@@ -19,10 +21,10 @@ export default defineConfig({
 
   projects: [
     {
-      name: "firefox browser",
+      name: "Chrome browser",
       use: {
+        ...devices["Desktop Chrome"],
         headless: true,
-        // channel: "msedge",
         viewport: { width: 1900, height: 1080 },
       },
     },

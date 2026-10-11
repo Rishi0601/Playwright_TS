@@ -31,7 +31,7 @@ export class LoginPage {
     );
     if (
       accessLevel === "user" &&
-      (await this.reusableComponents.isDisplayed(this.loginpageui.dialogOKBtn))
+      await this.reusableComponents.isDisplayed(this.loginpageui.dialogOKBtn)
     ) {
       await this.reusableComponents.click(this.loginpageui.dialogOKBtn);
     }
@@ -47,5 +47,9 @@ export class LoginPage {
 
   async signIn() {
     await this.reusableComponents.click(this.loginpageui.signInBtn);
+  }
+
+  async isInvalidLoginErrorMsgVisible(): Promise<boolean> {
+    return await this.reusableComponents.isDisplayed(this.loginpageui.errorMsg);
   }
 }

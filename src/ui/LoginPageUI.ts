@@ -7,6 +7,7 @@ export class LoginPageUI {
   public readonly signInBtn: Locator;
   public readonly dialogOKBtn: Locator;
   public readonly roleDropdown: Locator;
+  public readonly errorMsg: Locator;
 
   constructor(private readonly page: Page) {
     this.username = page.locator("#username");
@@ -15,6 +16,7 @@ export class LoginPageUI {
     this.signInBtn = page.locator("#signInBtn");
     this.dialogOKBtn = page.locator("#okayBtn");
     this.roleDropdown = page.locator("select.form-control");
+    this.errorMsg = page.locator("[class='alert alert-danger col-md-12']");
   }
 
   userAccess(accessLevel: string) {
