@@ -71,9 +71,8 @@ for (const data of userDataProvider) {
 for (const [index, hyperlink] of hyperlinkDataProvider.entries()) {
   fixtureTest(
     `Login page hyperlink functionality - ${hyperlink}`,
-    async ({ loginpage, reusableComponent, loginUI, page }) => {
+    async ({ loginpage, reusableComponent, loginUI }) => {
       const newTab = await reusableComponent.switchTab(
-        page,
         loginUI.hyperlinks.nth(index),
       );
       await reusableComponent.expectedtUrl(`${hyperlink}`, newTab);

@@ -4,19 +4,25 @@ export class ReusableComponents {
   constructor(private readonly page: Page) {}
 
   async navigateTo(url: string): Promise<void> {
-    await this.page.goto(url);
+    await this.page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
   }
 
-  async click(locator: Locator): Promise<void> {
+  async click(locator: Locator, timeout = 15000): Promise<void> {
+    await locator.waitFor({ state: "visible", timeout });
     await locator.click();
   }
 
-  async enterText(locator: Locator, text: string): Promise<void> {
+  async enterText(
+    locator: Locator,
+    text: string,
+    timeout = 15000,
+  ): Promise<void> {
+    await locator.waitFor({ state: "visible", timeout });
     await locator.fill(text);
   }
 
-  async isDisplayed(locator: Locator): Promise<boolean> {
-    await locator.waitFor();
+  async isDisplayed(locator: Locator, timeout = 15000): Promise<boolean> {
+    await locator.waitFor({ state: "visible", timeout });
     return locator.isVisible();
   }
 
@@ -25,7 +31,8 @@ export class ReusableComponents {
     await expect(page).toHaveURL(url);
   }
 
-  async getText(locator: Locator): Promise<string | null> {
+  async getText(locator: Locator, timeout = 15000): Promise<string | null> {
+    await locator.waitFor({ state: "visible", timeout });
     return await locator.textContent();
   }
 
@@ -33,8 +40,8 @@ export class ReusableComponents {
     await expect(locator).toHaveText(text);
   }
 
-  async switchTab(page: Page, locator: Locator): Promise<Page> {
-    const currentPage = page.waitForEvent("popup");
+  async switchTab(locator: Locator): Promise<Page> {
+    const currentPage = this.page.waitForEvent("popup");
     await this.click(locator);
     const newPage = await currentPage;
     await newPage.waitForLoadState();
